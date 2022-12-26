@@ -1,20 +1,15 @@
 import React, { Component } from "react";
-import { nanoid } from 'nanoid'
+// import { nanoid } from 'nanoid'
 
 export class ContactForm extends Component {
     state = {
       name: '',
-      number: '',
-      id: ''
+      number: ''
     };
-
-    nameInputId = nanoid();
-    numberInputId = nanoid();
 
     handleInputChange = e => {
         const {name, value} = e.currentTarget;
         this.setState({[name]: value});
-        this.setState({id: nanoid()});
       }
     
     handleInputSubmit = e => {
@@ -24,7 +19,7 @@ export class ContactForm extends Component {
     }    
       
     reset = () => {
-    this.setState({ name: '', number:'', id:''});
+    this.setState({ name: '', number:'' });
     };
       
 
@@ -32,7 +27,7 @@ render () {
     return (
         <>
           <form action="" onSubmit={this.handleInputSubmit}>
-            <label htmlFor={this.nameInputId}>
+            <label>
               Name
               <input
                 onChange={this.handleInputChange}

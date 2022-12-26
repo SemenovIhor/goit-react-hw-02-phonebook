@@ -3,6 +3,7 @@ import { Section } from "./Section/Section";
 import { ContactForm } from "./ContactForm/ContactForm";
 import { ContactList } from './ContactList/ContactList'
 import { Filter } from "./Filter/Filter";
+import { nanoid } from "nanoid";
 
 export class App extends Component {
   state = {
@@ -20,24 +21,25 @@ export class App extends Component {
       if (this.state.contacts.some(contact =>  contact.name.toLowerCase() === data.name.toLowerCase())) {
         alert("Hello");
       } else {
+        const newContant = {...data, id: nanoid() }
         this.setState(prevState => {
-          return { contacts: [...prevState.contacts, data] };
+          return { contacts: [...prevState.contacts, newContant] };
         });
       }
   }
   
-  filterInput = e => {
-    this.setState(
-      {filter: e.filter} 
-    );
+  filterInput = ({filter}) => {
+    this.setState({filter});
   }
   
-  contactDelete = newState => {
-    console.log(newState)
+  contactDelete = id => {
+    console.log(id)
+    const  newState = this.state.contacts.filter((item) => item.id !== id); 
     this.setState(
       {contacts: newState} 
     );
   }
+
 
   render () {
     return (
@@ -48,14 +50,18 @@ export class App extends Component {
           />  
         </Section>
         <Section title="Contacts">
-          <Filter
-            onChange = {this.filterInput}
-          />
-          <ContactList
-            contacts={this.state.contacts}
-            filter={this.state.filter}
-            onClick = {this.contactDelete}
-          />
+        {this.state.contacts.length !== 0 && (
+          <>
+            <Filter
+              onChange = {this.filterInput}
+            />
+            <ContactList
+              contacts={this.state.contacts}
+              filter={this.state.filter}
+              onClick = {this.contactDelete}
+            />
+          </>
+        )}
         </Section>
       </div>
     );
