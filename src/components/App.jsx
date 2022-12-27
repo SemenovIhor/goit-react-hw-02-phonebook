@@ -40,8 +40,17 @@ export class App extends Component {
     );
   }
 
+  // const arrayFilter = contacts.filter(contact => contact.name.toUpperCase().includes(filter.toUpperCase()))
+
+  getFilteredContacts = () => {
+    const { contacts, filter } = this.state;
+    return contacts.filter(contact =>
+      contact.name.toUpperCase().includes(filter.toUpperCase())
+      );
+  }
 
   render () {
+    const filteredContacts = this.getFilteredContacts();
     return (
       <div>
         <Section title="Phonebook">
@@ -56,8 +65,7 @@ export class App extends Component {
               onChange = {this.filterInput}
             />
             <ContactList
-              contacts={this.state.contacts}
-              filter={this.state.filter}
+              contacts={filteredContacts}
               onClick = {this.contactDelete}
             />
           </>
